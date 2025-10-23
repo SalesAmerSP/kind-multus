@@ -1,8 +1,22 @@
 ## Install container networking plugins
 
+You will need macvlan plugin, if you do not have it you will have to install it:
+
 ```
 sudo apt install containernetworking-plugins -y 
 cp -R /usr/lib/cni /opt/.
+```
+
+## set env variable
+
+```
+export KIND_EXPERIMENTAL_PROVIDER=kind
+```
+
+If you plan to use podman:
+
+```
+export KIND_EXPERIMENTAL_PROVIDER=podman
 ```
 
 # Kind Cluster with Calico
@@ -44,7 +58,7 @@ By default, *kind* comes with it's own cni called *kindnetd*. This has been disa
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.2/manifests/tigera-operator.yaml
 ```
 
-You'll need to run this as we've set a cusoter cidr block:
+You'll need to run this as we've set a custom cidr block:
 
 ```
 kubectl apply -f calico-custom-resource.yaml
@@ -63,6 +77,9 @@ watch kubectl get pods -l k8s-app=calico-node -A
 kubectl apply -f https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml
 ```
 ## Create new networks
+
+
+You can use `podman` or `docker` to run the below commands based on your container runtime.
 
 ```
 podman ps
@@ -146,10 +163,4 @@ kubectl delete po nginx-sincle-nic
 
 ```
 kind delete cluster kalico
-```
-
-## set env variable
-
-```
-KIND_EXPERIMENTAL_PROVIDER=kind
 ```
