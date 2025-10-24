@@ -73,6 +73,7 @@ watch kubectl get pods -l k8s-app=calico-node -A
 ## Install Multus
 
 
+
 ```
 kubectl apply -f https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml
 ```
@@ -99,7 +100,7 @@ podman exec -it kalico-worker ip a flush eth1
 kubectl annotate --overwrite node kalico-worker 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"10.23.10.10"}'
 ```
 
-## Attch
+## Attach
 
 Multus uses a network attacment definition file (net-attach-def) to attach additional network interfaces to a Pod. By default, Kubernetes CNI will attach a single
 interface, eth0, to a Pod.
@@ -121,6 +122,24 @@ spec:
 		}'
 ```
 
+NetworkAttachmentDefinition (NAD)
+
+Definition: A Kubernetes Custom Resource Definition (CRD) object used to define the specifications for an additional network interface.  
+
+Functionality: Each NAD specifies which CNI plugin to use for creating the interface, along with configuration details like the type of network (e.g., SR-IOV, MacVLAN) and the desired IPAM method.  
+
+How it's used: To attach a new interface to a pod, you create a NAD and then annotate the pod to reference that NAD.  
+IPAM types
+
+- DHCP: An external DHCP server provides an IP address to the new interface. A DHCP IPAM CNI daemon may be needed to manage the lease.
+-  
+- Static: The interface is assigned a specific, static IP address as part of the NetworkAttachmentDefinition.
+-  
+- Whereabouts: A cluster-wide IPAM plugin that assigns IP addresses from a local pool of addresses. It's a good option for environments that need IP management without an external DHCP server.
+   
+- Host-local: An IPAM plugin that assigns addresses from a range defined on the local host. When defining a NetworkAttachmentDefinition for use with Multus, the host-local IPAM type specifies that IP address allocation for the secondary network interface will be managed locally on each individual host.
+
+
 Deploy net-attch-def:
 
 ```
@@ -130,7 +149,7 @@ kubectl apply -f net-attach-def.yaml
 Deploy pod to validate new interface:
 
 ```
-kubectl apply -f net-pod.yaml
+kubectl apply -f samplepod.yaml
 ```
 
 ```
@@ -168,3 +187,4 @@ kubectl delete po nginx-sincle-nic
 ```
 kind delete cluster kalico
 ```
+Or use `cleanup.sh` script
