@@ -72,7 +72,7 @@ watch kubectl get pods -l k8s-app=calico-node -A
 
 ## Install Multus
 
-
+[Multus](https://github.com/k8snetworkplumbingwg/multus-cni) CNI enables attaching multiple network interfaces to pods in Kubernetes.
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml
