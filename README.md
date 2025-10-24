@@ -101,11 +101,9 @@ kubectl annotate --overwrite node kalico-worker 'k8s.ovn.org/node-primary-ifaddr
 
 ## Attch
 
-Deploy net-attch-def:
+Multus uses a network attacment definition file (net-attach-def) to attach additional network interfaces to a Pod. By default, Kubernetes CNI will attach a single
+interface, eth0, to a Pod.
 
-```
-kubectl apply -f net-attach-def.yaml
-```
 Network attachment definition file:
 
 ```
@@ -121,6 +119,12 @@ spec:
 		"mode": "bridge",
 		"ipam": {}
 		}'
+```
+
+Deploy net-attch-def:
+
+```
+kubectl apply -f net-attach-def.yaml
 ```
 
 Deploy pod to validate new interface:
