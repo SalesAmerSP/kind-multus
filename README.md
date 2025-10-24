@@ -1,3 +1,7 @@
+# KinD
+
+This lab is run on [KinD](https://kind.sigs.k8s.io/docs/user/quick-start/). Please use the link to make sure you have it installed before begining.
+
 ## Install container networking plugins
 
 You will need macvlan plugin, if you do not have it you will have to install it:
