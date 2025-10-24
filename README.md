@@ -80,7 +80,7 @@ kubectl apply -f https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-c
 ## Create new networks
 
 
-You can use `podman` or `docker` to run the below commands based on your container runtime.
+You can use `podman` or `docker` to run the below commands based on your container runtime. You are creating this network to attach the new pod interface to this network. This is a real world example of having a BNK internal interface on the same L2 adjacent network as the worker nodes. In the network attachment definition file you will use an IP address in this network.
 
 ```
 podman ps
