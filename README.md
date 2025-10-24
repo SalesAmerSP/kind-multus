@@ -163,7 +163,7 @@ kind: Pod
 metadata:
   name: samplepod
   annotations:
-    k8s.v1.cni.cncf.io/networks: ext-net
+    k8s.v1.cni.cncf.io/networks: ext-net #<- annotation is used to denote net-attach-def file
 spec:
   containers:
   - name: samplepod
