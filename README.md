@@ -199,11 +199,7 @@ Deploy net-attch-def:
 kubectl apply -f net-attach-def.yaml
 ```
 
-Deploy pod to validate new interface:
-
-```
-kubectl apply -f samplepod.yaml
-```
+Deploy pod to validate new interface, notice the annotation in the example below:
 
 ```
 apiVersion: v1
@@ -217,6 +213,65 @@ spec:
   - name: samplepod
     command: ["/bin/ash", "-c", "trap : TERM INT; sleep infinity & wait"]
     image: alpine
+```
+Deploy
+
+```
+kubectl apply -f samplepod.yaml
+```
+
+View details of the *describe* output for samplepod:
+
+```
+kubectl descripbe po samplepod
+```
+
+```
+Name:             samplepod
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             kalico-worker/10.23.0.1
+Start Time:       Thu, 23 Oct 2025 17:09:13 -0700
+Labels:           <none>
+Annotations:      cni.projectcalico.org/containerID: 18464e9613e89b1a3f6f7ed81df0f7e40bae48451a8857fdde4eef5015948776
+                  cni.projectcalico.org/podIP: 10.24.164.132/32
+                  cni.projectcalico.org/podIPs: 10.24.164.132/32
+                  k8s.v1.cni.cncf.io/network-status:
+                    [{
+                        "name": "k8s-pod-network",
+                        "ips": [
+                            "10.24.164.132"
+                        ],
+                        "default": true,
+                        "dns": {}
+                    },{
+                        "name": "default/ext-net",
+                        "interface": "net1",
+                        "ips": [
+                            "10.23.0.101"
+                        ],
+                        "mac": "06:d3:55:b9:0f:9c",
+                        "dns": {},
+                        "gateway": [
+                            "\u003cnil\u003e"
+                        ]
+                    }]
+                  k8s.v1.cni.cncf.io/networks: ext-net
+Status:           Running
+IP:               10.24.164.132
+```
+
+From the events you can see *multus* install the the interfaces:
+```
+Events:
+  Type    Reason          Age                From               Message
+  ----    ------          ----               ----               -------
+  Normal  Scheduled       15h                default-scheduler  Successfully assigned default/samplepod to kalico-worker
+  Normal  AddedInterface  15h                multus             Add eth0 [10.24.164.130/32] from k8s-pod-network
+  Normal  AddedInterface  15h                multus             Add net1 [10.23.0.100/16] from default/ext-net
+  Normal  Pulling         15h                kubelet            Pulling image "alpine"
+  Normal  Pulled          15h                kubelet            Successfully pulled image "alpine" in 2.895s (2.895s including waiting). Image size: 3813273 bytes.
 ```
 
 ## Install Container
