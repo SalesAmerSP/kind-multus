@@ -4,11 +4,48 @@ This lab is run on [KinD](https://kind.sigs.k8s.io/docs/user/quick-start/). Plea
 
 ## Install container networking plugins
 
+**Linux**
+
 You will need macvlan plugin, if you do not have it you will have to install it:
 
 ```
 sudo apt install containernetworking-plugins -y 
 cp -R /usr/lib/cni /opt/.
+```
+**Podman**
+
+Since Podman runs on a virtual machine, you'll have to install the cni plugins on the VM for the containers to work. These steps have not been tested.
+
+```
+podman machine ssh
+```
+OR
+
+Insert image from podman desktop
+
+Determine architecture and set [cni plugin version](https://github.com/containernetworking/plugins/releases) (at time of writing 1.8)
+```
+export ARCH_CNI=$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)
+export CNI_PLUGIN_VERSION=v1.8.0 # Replace with the latest version
+```
+
+Download cni plugin:
+
+```
+curl -LO "https://github.com/containernetworking/plugins/releases/download/${CNI_PLUGIN_VERSION}/cni-plugins-linux-${ARCH_CNI}-${CNI_PLUGIN_VERSION}.tgz"
+```
+
+Create directory for plugin:
+
+```
+sudo mkdir -p /opt/cni/bin
+```
+
+Extract and verify:
+
+```
+sudo tar -xzf cni-plugins-linux-${ARCH_CNI}-${CNI_PLUGIN_VERSION}.tgz -C /opt/cni/bin
+ls /opt/cni/bin
 ```
 
 ## set env variable
