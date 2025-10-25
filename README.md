@@ -155,15 +155,23 @@ Network attachment definition file:
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-	name: ext-net
+  name: ext-net
 spec:
-	config: '{
-		"cniVersion": "0.3.1",
-		"type": "macvlan",
-		"master": "eth1",
-		"mode": "bridge",
-		"ipam": {}
-		}'
+  config: '{
+    "cniVersion": "0.3.1",
+    "type": "macvlan",    			#<- Driver used
+    "master": "eth1",
+    "mode": "bridge",
+    "ipam": {
+      "type": "host-local",			#<- See below for IPAM types
+      "subnet": "10.23.0.0/16",		#<- Same network as attached to worker node
+      "rangeStart": "10.23.0.100",	#<- net1 interface on Pod will be within the range
+      "rangeStop": "10.23.240",
+      "routes": [
+        { "dst": "0.0.0.0/0"}
+        ],
+      "gateway": "10.23.0.1"}
+    }'
 ```
 
 NetworkAttachmentDefinition (NAD)
