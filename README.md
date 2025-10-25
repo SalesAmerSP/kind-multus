@@ -75,7 +75,7 @@ nodes:
 - role: control-plane
 - role: worker
 networking:
-  disableDefaultCNI: true
+  disableDefaultCNI: true #<- Disables default Kindnetd CNI
   podSubnet: 10.24.0.0/16
 ```
 
