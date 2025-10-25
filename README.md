@@ -199,6 +199,8 @@ Deploy net-attch-def:
 kubectl apply -f net-attach-def.yaml
 ```
 
+# Install Pod
+
 Deploy pod to validate new interface, notice the annotation in the example below:
 
 ```
@@ -272,20 +274,6 @@ Events:
   Normal  AddedInterface  15h                multus             Add net1 [10.23.0.100/16] from default/ext-net
   Normal  Pulling         15h                kubelet            Pulling image "alpine"
   Normal  Pulled          15h                kubelet            Successfully pulled image "alpine" in 2.895s (2.895s including waiting). Image size: 3813273 bytes.
-```
-
-## Install Container
-
-```
-kubectl run nginx-single-nic --image=nginx:latest
-```
-
-Check pod ip addrress
-
-delete pod 
-
-```
-kubectl delete po nginx-sincle-nic
 ```
 
 # Clean up Tasks
