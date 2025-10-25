@@ -133,6 +133,9 @@ Make note of the worker node name
 podman network create -d macvlan ext-net --subnet 10.23.0.0/16
 podman network connect ext-net kalico-worker
 ```
+
+Take note of the [network plugin](https://github.com/containernetworking/plugins) driver used above, `-d macvlan`. Macvlan allows us to assign a unique MAC address to the new interface created by Multus in the Pod. This will also be referenced in the Network Attachment Definition file below.
+
 ```
 podman exec -it kalico-worker ip a flush eth1
 ```
@@ -141,7 +144,7 @@ podman exec -it kalico-worker ip a flush eth1
 kubectl annotate --overwrite node kalico-worker 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"10.23.10.10"}'
 ```
 
-## Attach
+## Network Attachment Definition
 
 Multus uses a network attacment definition file (net-attach-def) to attach additional network interfaces to a Pod. By default, Kubernetes CNI will attach a single
 interface, eth0, to a Pod.
