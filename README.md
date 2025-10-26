@@ -1,3 +1,7 @@
+# Multus
+
+A very good article on [Multus](https://thamizhelango.medium.com/complete-guide-to-multus-in-kubernetes-enabling-multiple-network-interfaces-for-pods-857b0b74cf37)
+
 # KinD
 
 This lab is run on [KinD](https://kind.sigs.k8s.io/docs/user/quick-start/). Please use the link to make sure you have it installed before begining.
