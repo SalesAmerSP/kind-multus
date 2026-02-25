@@ -285,6 +285,6 @@ Events:
 ## Delete Cluster
 
 ```
-kind delete cluster kalico
+kind delete cluster --name kalico
 ```
 Or use `cleanup.sh` script
