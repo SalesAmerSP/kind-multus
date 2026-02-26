@@ -144,6 +144,8 @@ Take note of the [network plugin](https://github.com/containernetworking/plugins
 podman exec -it kalico-worker ip a flush eth1
 ```
 
+This step is not needed, only for bnk deployments outside ocp
+
 ```
 kubectl annotate --overwrite node kalico-worker 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"10.23.10.10"}'
 ```
